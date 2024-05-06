@@ -1,112 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Procura de Pessoas Abrigadas no RS</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Procura de Pessoas Abrigadas no RS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
 
-    h1 {
-      text-align: center;
-      font-size: 3rem;
-      font-weight: bold;
-    }
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      font-weight: bold;
+    }
 
-    #pesquisa {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 2rem;
-    }
+    #pesquisa {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 2rem;
+    }
 
-    #campo-pesquisa {
-      padding: 1rem;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-    }
+    #campo-pesquisa {
+      padding: 1rem;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
 
-    #botao-pesquisar {
-      padding: 0.5rem 1rem;
-      border: 1px solid #ccc;
-      cursor: pointer;
-    }
-
-    #resultados-pesquisa {
-      margin-top: 2rem;
-      border: 1px solid #ccc;
-      padding: 1rem;
-    }
-
-    .resultado {
-      margin-bottom: 1rem;
-      padding: 0.5rem;
-      border-bottom: 1px solid #ccc;
-    }
-
-    .resultado h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .resultado p {
-      margin: 0;
-    }
-  </style>
+    #botao-pesquisar {
+      padding: 0.5rem 1rem;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <h1>Procura de Pessoas Abrigadas no RS</h1>
+  <h1>Procura de Pessoas Abrigadas no RS</h1>
 
-  <div id="pesquisa">
-    <input type="text" id="campo-pesquisa" placeholder="Nome da pessoa">
-    <button id="botao-pesquisar">Pesquisar</button>
-  </div>
+  <div id="pesquisa">
+    <input type="text" id="campo-pesquisa" placeholder="Nome da pessoa">
+    <button id="botao-pesquisar">Pesquisar</button>
+  </div>
 
-  <div id="resultados-pesquisa"></div>
-
-  <script>
-    $(document).ready(function() {
-      $("#botao-pesquisar").click(function() {
-        var nomePesquisado = $("#campo-pesquisa").val().toLowerCase();
-        var dadosCSV = []; // Array para armazenar os dados da planilha CSV
-
-        // Carregar dados da planilha CSV (usando AJAX ou outra biblioteca de requisição)
-        $.ajax({
-          url: "https://drive.google.com/file/d/1mi5p8a8BH5M9itK1K2gnJQ5_vJ3F8aga/view?usp=drive_link", // Substitua por link da sua planilha CSV
-          dataType: "text",
-          success: function(data) {
-            var linhas = data.split("\n");
-            for (var i = 1; i < linhas.length; i++) { // Ignorar a primeira linha (cabeçalho)
-              var dadosLinha = linhas[i].split(","); // Separar dados por vírgula
-              dadosCSV.push(dadosLinha);
-            }
-
-            // Filtrar dados por nome
-            var resultados = dadosCSV.filter(function(linha) {
-              return linha[0].toLowerCase().includes(nomePesquisado); // Buscar por nome na primeira coluna
-            });
-
-            // Exibir resultados
-            var resultadosHTML = "";
-            if (resultados.length > 0) {
-              for (var i = 0; i < resultados.length; i++) {
-                resultadosHTML += "<div class='resultado'>";
+  <script>
+    $(document).ready(function() {
+      $("#botao-pesquisar").click(function() {
+        var nomePesquisado = $("#campo-pesquisa").val().toLowerCase();
+        var dadosCSV = []; // Array para armazenar os dados da planilha CSV
+   
+        // Carregar dados da planilha CSV (usando AJAX ou outra biblioteca de requisição)
+        $.ajax({
+          url: "https://drive.google.com/file/d/1mi5p8a8BH5M9itK1K2gnJQ5_vJ3F8aga/view?usp=drive_link", // Substitua por link da sua planilha CSV
+          dataType: "text",
+          success: function(data) {
+            var linhas = data.split("\n");
+            for (var i = 1; i < linhas.length; i++) { // Ignorar a primeira linha (cabeçalho)
+              var dadosLinha = linhas[i].split(","); // Separar dados por vírgula
+              dadosCSV.push(dadosLinha);
+            }
+   
+            // Filtrar dados por nome
+            var resultados = dadosCSV.filter(function(linha) {
+              return linha[0].toLowerCase().includes(nomePesquisado); // Buscar por nome na primeira coluna
+            });
+   
+            // Exibir resultados (você pode usar alertas, criar uma tabela dinâmica, etc.)
+        if (resultados.length > 0) {
+            for (var i = 0; i < resultados.length; i++) {
+                resultadosHTML += "<div class='resultado'>"; // Add a class for styling
                 resultadosHTML += "<h3>" + resultados[i][0] + "</h3>"; // Display name
                 resultadosHTML += "<p>Abrigo: " + resultados[i][1] + "</p>"; // Display shelter
                 resultadosHTML += "</div>";
-              }
-            } else {
-              resultadosHTML = "<p>Nenhum resultado encontrado.</p>";
             }
-
-            $("#resultados-pesquisa").html(resultadosHTML);
-          }
-        });
-      });
-    });
-  </script>
+        } else {
+            resultadosHTML = "<p>Nenhum resultado encontrado.</p>"
+              
+            }
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

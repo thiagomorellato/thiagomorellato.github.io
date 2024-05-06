@@ -34,6 +34,25 @@
       border: 1px solid #ccc;
       cursor: pointer;
     }
+
+    #resultados {
+      margin-top: 2rem;
+    }
+
+    .resultado {
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .resultado h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .resultado p {
+      margin: 0;
+    }
   </style>
 </head>
 <body>
@@ -43,6 +62,8 @@
     <input type="text" id="campo-pesquisa" placeholder="Nome da pessoa">
     <button id="botao-pesquisar">Pesquisar</button>
   </div>
+
+  <div id="resultados"></div>
 
   <script>
     $(document).ready(function() {
@@ -66,15 +87,20 @@
               return linha[0].toLowerCase().includes(nomePesquisado); // Buscar por nome na primeira coluna
             });
    
-            // Exibir resultados (você pode usar alertas, criar uma tabela dinâmica, etc.)
+            // Exibir resultados
+            var resultadosHTML = "";
             if (resultados.length > 0) {
-              alert("Resultados encontrados:");
               for (var i = 0; i < resultados.length; i++) {
-                alert(resultados[i].join(", ")); // Exibir cada linha de resultado
+                resultadosHTML += "<div class='resultado'>";
+                resultadosHTML += "<h3>" + resultados[i][0] + "</h3>"; // Nome da pessoa
+                resultadosHTML += "<p>Abrigo: " + resultados[i][1] + "</p>"; // Abrigo
+                resultadosHTML += "</div>";
               }
             } else {
-              alert("Nenhum resultado encontrado para '" + nomePesquisado + "'");
+              resultadosHTML = "<p>Nenhum resultado encontrado para '" + nomePesquisado + "'</p>";
             }
+   
+            $("#resultados").html(resultadosHTML);
           }
         });
       });

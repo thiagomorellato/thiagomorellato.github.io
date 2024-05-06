@@ -52,7 +52,7 @@
    
         // Carregar dados da planilha CSV (usando AJAX ou outra biblioteca de requisição)
         $.ajax({
-          url: "https://drive.google.com/file/d/1mi5p8a8BH5M9itK1K2gnJQ5_vJ3F8aga/view?usp=drive_link", // Substitua por link da sua planilha CSV
+          url: "data/abrigados.csv", // Substitua por link da sua planilha CSV
           dataType: "text",
           success: function(data) {
             var linhas = data.split("\n");
